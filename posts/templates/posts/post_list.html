@@ -1,0 +1,17 @@
+{% extends "posts/base.html" %}
+
+{% block bodycontent %}
+{% if posts %}
+    {% for post in posts %}
+        <div>
+            <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+            <p>{{ post.author.username}}</p>
+            <p>{{ post.content|truncatewords:10 }}</p>
+            <p>Published on {{ post.created_at|date:"F j, Y" }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    No posts yet.
+{% endif %}
+
+{% endblock %}
