@@ -6,7 +6,9 @@
     <p class="meta">By {{ post.author.username }}</p>
     <p>{{ post.content }}</p>
     <p class="meta">Published on {{ post.created_at|date:"F j, Y, g:i A" }}</p>
-
+    
+    <a class="back-link" href="{% url 'post_edit' post.id %}">Edit Posts</a>
+    <a class="back-link" href="{% url 'post_delete' post.id %}">Delete Post</a>
     <a class="back-link" href="{% url 'post_list' %}">Back to Posts</a>
     </div>
 {% endblock %}
