@@ -1,13 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
+    <link rel="stylesheet" href="{% static 'posts/style.css' %}">
 </head>
 <body>
     <h1>My Blog</h1>
-    <a href="{% url 'post_list' %}">All Posts</a>
+    <nav>
+        <a href="{% url 'post_list' %}">All Posts</a>
+    </nav>
     {% block bodycontent %}
     {% endblock %}
 </body>

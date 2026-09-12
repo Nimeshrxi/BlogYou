@@ -2,14 +2,16 @@
 
 {% block bodycontent %}
 {% if posts %}
+    <div class="posts-container">
     {% for post in posts %}
-        <div>
+        <div class="post">
             <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
-            <p>{{ post.author.username}}</p>
+            <p class="meta">{{ post.author.username}}</p>
             <p>{{ post.content|truncatewords:10 }}</p>
-            <p>Published on {{ post.created_at|date:"F j, Y" }}</p>
+            <p class="meta">Published on {{ post.created_at|date:"F j, Y" }}</p>
         </div>
     {% endfor %}
+    </div>
 {% else %}
     No posts yet.
 {% endif %}
