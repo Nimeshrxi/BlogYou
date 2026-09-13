@@ -1,9 +1,9 @@
 {% extends "posts/base.html" %}
 
 {% block bodycontent %}
-{% if posts %}
+{% if page_obj %}
     <div class="posts-container">
-    {% for post in posts %}
+    {% for post in page_obj %}
         <div class="post">
             <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
             <p class="meta">{{ post.author.username}}</p>
@@ -11,6 +11,23 @@
             <p class="meta">Published on {{ post.created_at|date:"F j, Y" }}</p>
         </div>
     {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
     </div>
 {% else %}
     No posts yet.

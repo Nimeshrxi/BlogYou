@@ -6,9 +6,46 @@
     <p class="meta">By {{ post.author.username }}</p>
     <p>{{ post.content }}</p>
     <p class="meta">Published on {{ post.created_at|date:"F j, Y, g:i A" }}</p>
+
+    <hr>
+    <h2>Comments</h2>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <strong>{{ comment.author.username }}</strong>
+            <p>{{ comment.content }}</p>
+
+            <small>
+                {{ comment.created_at|date:"F j, Y, g:i A" }}
+            </small>
+
+            {% if user == comment.author %}
+                <a href="{% url 'comment_delete' comment.id %}">Delete Comment</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endfor %}
     
-    <a class="back-link" href="{% url 'post_edit' post.id %}">Edit Posts</a>
-    <a class="back-link" href="{% url 'post_delete' post.id %}">Delete Post</a>
+    {% if user.is_authenticated %}
+        <h3>Leave a comment</h3>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post Comment</button>
+        </form>
+    {% else %}
+        <p>
+            <a href="{% url 'login' %}">Login</a>
+            to leave a comment.
+        </p>
+    {% endif %}
+
+    {% if user == post.author %}
+        <a class="back-link" href="{% url 'post_edit' post.id %}">Edit Post</a>
+        <a class="back-link" href="{% url 'post_delete' post.id %}">Delete Post</a>
+    {% endif %}
+    <br>
     <a class="back-link" href="{% url 'post_list' %}">Back to Posts</a>
     </div>
 {% endblock %}
