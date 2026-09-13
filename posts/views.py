@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from posts.models import Post
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
@@ -37,7 +38,7 @@ def post_edit(request, post_id):
         
         if form.is_valid():
             form.save()
-            return redirect("post_detail", post_id=post.id)
+            return redirect("post_detail", post_id=post.id) #type: ignore
         
     else:
         form = PostForm(instance=post)
@@ -52,3 +53,15 @@ def post_delete(request, post_id):
         post.delete()
         return redirect("post_list")
     return render(request, "posts/post_delete.html", {"post": post})
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+        
+    return render(request, "registration/register.html", {"form": form})
