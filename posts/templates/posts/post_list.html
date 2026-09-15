@@ -1,7 +1,13 @@
 {% extends "posts/base.html" %}
 
 {% block bodycontent %}
-{% if page_obj %}
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search posts..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if page_obj.object_list %}
     <div class="posts-container">
     {% for post in page_obj %}
         <div class="post">
@@ -15,8 +21,8 @@
 
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1">First</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            <a href="?q={{ query }}&page=1">First</a>
+            <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
 
         <span>
@@ -24,13 +30,13 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
 
     </div>
 {% else %}
-    No posts yet.
+    <p>No posts found</p>
 {% endif %}
 
 {% endblock %}

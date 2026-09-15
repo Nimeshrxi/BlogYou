@@ -6,7 +6,7 @@
     <p class="meta">By {{ post.author.username }}</p>
     <p>{{ post.content }}</p>
     <p class="meta">Published on {{ post.created_at|date:"F j, Y, g:i A" }}</p>
-
+    <p class="meta">Last updated on {{post.updated_at|date:"F j, Y, g:i A" }}</p>
     <hr>
     <h2>Comments</h2>
     {% for comment in post.comments.all %}
@@ -19,6 +19,7 @@
             </small>
 
             {% if user == comment.author %}
+                <a href="{% url 'comment_edit' comment.id %}">Edit</a>
                 <a href="{% url 'comment_delete' comment.id %}">Delete Comment</a>
             {% endif %}
         </div>
